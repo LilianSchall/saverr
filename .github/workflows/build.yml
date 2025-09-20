@@ -1,5 +1,3 @@
-name: Build Saverr EXE
-
 on:
   push:
     branches:
@@ -28,8 +26,9 @@ jobs:
       - name: Publish EXE
         run: dotnet publish Saverr/Saverr.csproj --configuration Release --output ./publish --self-contained true -r win-x64
 
-      - name: Upload EXE artifact
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: Saverr-exe
-          path: ./publish/*.exe
+          files: ./publish/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
