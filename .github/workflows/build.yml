@@ -1,0 +1,35 @@
+name: Build Saverr EXE
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore Saverr/Saverr.csproj
+
+      - name: Build project
+        run: dotnet build Saverr/Saverr.csproj --configuration Release --no-restore
+
+      - name: Publish EXE
+        run: dotnet publish Saverr/Saverr.csproj --configuration Release --output ./publish --self-contained true -r win-x64
+
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Saverr-exe
+          path: ./publish/*.exe
