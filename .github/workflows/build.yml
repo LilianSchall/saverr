@@ -34,6 +34,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: ./publish/*.exe
+          files: |
+            ./publish/Saverr.exe
+            ./publish/Saverr.dll
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
