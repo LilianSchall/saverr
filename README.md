@@ -26,7 +26,7 @@ As this binary is built to be used as a cronjob, you can use this utility in a
 powershell command to set a frequency of launch:
 
 ```powershell
-$Action = New-ScheduledTaskAction -Execute "C:\Program Files (x86)\Saverr\Saverr.exe" -Argument "D:\" -Argument "X:\" -Argument "5"
+$Action = New-ScheduledTaskAction -Execute "C:\Program Files (x86)\Saverr\Saverr.exe" -Argument '"D:\" "X:\" "5"' 
 $Trigger = New-ScheduledTaskTrigger -Daily -At 1am
 Register-ScheduledTask -Action $Action -Trigger $Trigger -TaskName "MyDailyJob" -Description "Runs backup service every day at 1AM"
 ```
