@@ -8,7 +8,7 @@ public class ConfigTest
     public void From_ValidArgs_ReturnsConfig()
     {
         // Arrange
-        string[] args = { "saverr", "/src", "/dst", "5" };
+        string[] args = { "/src", "/dst", "5" };
 
         // Act
         var config = Config.From(args);
@@ -23,7 +23,7 @@ public class ConfigTest
     public void From_InvalidArgsLength_ThrowsArgumentException()
     {
         // Arrange
-        string[] args = { "saverr", "/src", "/dst" };
+        string[] args = { "/src", "/dst" };
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(() => Config.From(args));
@@ -34,7 +34,7 @@ public class ConfigTest
     public void From_InvalidNbSaves_ThrowsArgumentException()
     {
         // Arrange
-        string[] args = { "saverr", "/src", "/dst", "notanumber" };
+        string[] args = { "/src", "/dst", "notanumber" };
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(() => Config.From(args));

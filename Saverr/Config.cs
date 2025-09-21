@@ -15,15 +15,15 @@ public class Config
 
     public static Config From(string[] args)
     {
-        if (args.Length != 4)
-            throw new ArgumentException($"Usage: {args[0]} [source_folder] [destination_folder] [nb_max_save]");
+        if (args.Length != 3)
+            throw new ArgumentException($"Usage: ./Saverr.exe [source_folder] [destination_folder] [nb_max_save]");
 
         try
         {
-            int nbMaxSave = Convert.ToInt32(args[3]);
-            return new Config(args[1], args[2], nbMaxSave);
+            int nbMaxSave = Convert.ToInt32(args[2]);
+            return new Config(args[0], args[1], nbMaxSave);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             throw new ArgumentException("max save parameter is not a valid integer.");
         }
