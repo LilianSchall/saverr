@@ -20,10 +20,13 @@ jobs:
           dotnet-version: "8.0.x"
 
       - name: Restore dependencies
-        run: dotnet restore Saverr/Saverr.csproj
+        run: dotnet restore Saverr.sln
 
       - name: Build project
-        run: dotnet build Saverr/Saverr.csproj --configuration Release --no-restore
+        run: dotnet build Saverr.sln --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test Saverr.sln --configuration Release --no-build
 
       - name: Publish EXE
         run: dotnet publish Saverr/Saverr.csproj --configuration Release --output ./publish --self-contained true -r win-x64
