@@ -10,8 +10,8 @@ public static class Program
         {
             Config config = Config.From(args);
             List<SaveFile> saves = Tools.CollectSaveFiles(config.destinationFolder);
-            saves.Sort((a, b) => a.saveDate < b.saveDate ? -1 : a.saveDate == b.saveDate ? 0 : 1);
-            
+            saves.Sort(new SaveFileDateComparer());
+
             Tools.NewSave(config.sourceFolder, config.destinationFolder);
             if (saves.Count > config.nbSaves)
             {

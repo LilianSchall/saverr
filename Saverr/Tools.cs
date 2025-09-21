@@ -24,10 +24,7 @@ public class Tools
 
     public static void NewSave(string sourcePath, string destinationPath)
     {
-        DateTime date = DateTime.UtcNow;
-        string dateString =
-            $"{date.Year.ToString().PadLeft(4, '0')}-{date.Month.ToString().PadLeft(2, '0')}-{date.Day.ToString().PadLeft(2, '0')}";
-        string filename = $"save-{dateString}.zip";
+        string filename = GenerateName(DateTime.UtcNow);
         string zipPath = Path.Combine(destinationPath, filename);
 
         try
@@ -39,5 +36,12 @@ public class Tools
         {
             Console.Error.WriteLine($"An error occured while trying to zip {sourcePath}: {e.Message}");
         }
+    }
+
+    private static string GenerateName(DateTime date)
+    {
+        string dateString =
+            $"{date.Year.ToString().PadLeft(4, '0')}-{date.Month.ToString().PadLeft(2, '0')}-{date.Day.ToString().PadLeft(2, '0')}";
+        return $"save-{dateString}.zip";
     }
 }
