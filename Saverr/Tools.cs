@@ -29,12 +29,53 @@ public class Tools
 
         try
         {
-            ZipFile.CreateFromDirectory(sourcePath, zipPath, CompressionLevel.Optimal, false);
+            SafeCreateZipFromDirectory(sourcePath, zipPath);
             Console.WriteLine($"Successfully created archive at path: {zipPath}");
         }
         catch (Exception e)
         {
             Console.Error.WriteLine($"An error occured while trying to zip {sourcePath}: {e.Message}");
+        }
+    }
+    
+    public static void SafeCreateZipFromDirectory(string sourcePath, string zipPath)
+    {
+        using (FileStream zipFileStream = new FileStream(zipPath, FileMode.Create))
+        {
+            using (ZipArchive archive = new ZipArchive(zipFileStream, ZipArchiveMode.Create))
+            {
+                AddDirectoryToArchive(sourcePath, string.Empty, archive);
+            }
+        }
+    }
+
+    private static void AddDirectoryToArchive(string sourceDirectory, string entryName, ZipArchive archive)
+    {
+        try
+        {
+            foreach (var file in Directory.GetFiles(sourceDirectory))
+            {
+                string entryFilePath = Path.Combine(entryName, Path.GetFileName(file));
+                try
+                {
+                    archive.CreateEntryFromFile(file, entryFilePath, CompressionLevel.Optimal);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Skipping file {entryFilePath}: {e.Message}");
+                }
+            }
+            
+            // Recursively process subdirectories
+            foreach (var subDirectory in Directory.GetDirectories(sourceDirectory))
+            {
+                // Recursive call to handle subdirectories.
+                AddDirectoryToArchive(subDirectory, Path.Combine(entryName, Path.GetFileName(subDirectory)), archive);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Skipping directory {sourceDirectory}: {e.Message}");
         }
     }
 
